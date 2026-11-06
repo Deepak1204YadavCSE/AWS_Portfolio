@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="green">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepak Yadav – B.Tech CSE</title>
+  <meta name="description" content="Portfolio of Deepak Yadav, B.Tech CSE student from Gorakhpur. Builds web apps in plain JavaScript and Node." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================
+       CSS CUSTOM PROPERTIES – THEMES
+    ===================================================== */
+    :root,
+    [data-theme="green"] {
+      --bg:         #0A1A14;
+      --panel:      #10241C;
+      --line:       #1F3A30;
+      --text:       #E8EFE4;
+      --muted:      #93A89B;
+      --accent:     #E3A857;
+      --accent2:    #7FD6A8;
+      --term-bg:    #07130E;
+      --radius-sm:  4px;
+      --radius-md:  6px;
+      --radius-lg:  8px;
+      --max-w:      1040px;
+      --font-body:  'Space Grotesk', sans-serif;
+      --font-mono:  'JetBrains Mono', monospace;
+      --shadow:     0 2px 12px rgba(0,0,0,.45);
+    }
+
+    [data-theme="amber"] {
+      --bg:      #14110F;
+      --panel:   #1C1814;
+      --line:    #3A322A;
+      --text:    #F2E8D5;
+      --muted:   #A89C86;
+      --accent:  #FFB454;
+      --accent2: #5CC8FF;
+      --term-bg: #0E0C0A;
+    }
+
+    [data-theme="paper"] {
+      --bg:      #F6F1E6;
+      --panel:   #FFFBF2;
+      --line:    #D9CFB8;
+      --text:    #2A241B;
+      --muted:   #6B6050;
+      --accent:  #B4531A;
+      --accent2: #1E5FA8;
+      --term-bg: #FFFBF2;
+      --shadow:  0 2px 12px rgba(0,0,0,.12);
+    }
+
+    /* =====================================================
+       RESET & BASE
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background .3s ease, color .3s ease;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* Focus styles – visible keyboard navigation */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    img { max-width: 100%; display: block; }
+
+    /* =====================================================
+       UTILITY
+    ===================================================== */
+    .container {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: clamp(1rem, 4vw, 2rem);
+    }
+
+    .section {
+      padding-block: clamp(3rem, 8vw, 5.5rem);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: .6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .card:hover {
+      border-color: var(--accent2);
+      box-shadow: var(--shadow);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .6rem 1.3rem;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: background .2s, color .2s, border-color .2s, transform .1s;
+      text-decoration: none;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0A1A14;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { filter: brightness(1.1); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #0A1A14;
+    }
+
+    .btn-sm {
+      padding: .35rem .9rem;
+      font-size: .8rem;
+    }
+
+    /* =====================================================
+       TOPBAR
+    ===================================================== */
+    #topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: background .3s, border-color .3s;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: clamp(1rem, 4vw, 2rem);
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .topbar-brand:hover { text-decoration: none; }
+
+    /* Diamond SVG logo */
+    .logo-diamond {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .brand-initials {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .05em;
+      color: var(--text);
+    }
+
+    .brand-role {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 540px) {
+      .brand-role { display: none; }
+    }
+
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      list-style: none;
+    }
+
+    .topbar-nav a {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      transition: color .2s;
+    }
+    .topbar-nav a::before {
+      content: '▪';
+      color: var(--accent2);
+      font-size: .55rem;
+    }
+    .topbar-nav a:hover { color: var(--text); }
+
+    @media (max-width: 540px) {
+      .topbar-nav { gap: .9rem; }
+      .topbar-nav li:nth-child(n+4) { display: none; }
+    }
+
+    /* =====================================================
+       HERO SECTION
+    ===================================================== */
+    #hero {
+      padding-block: clamp(3.5rem, 10vw, 6rem) clamp(3rem, 8vw, 5rem);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-right { order: -1; }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent2);
+    }
+
+    .hero-heading {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-heading .accent-line {
+      color: var(--accent);
+    }
+
+    .hero-body {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+    }
+
+    /* SVG chip diagram */
+    .chip-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      margin-inline: auto;
+    }
+
+    #chip-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* =====================================================
+       CONSOLE SECTION
+    ===================================================== */
+    #console-section {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    #console-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in srgb, var(--accent2) 6%, transparent), transparent 70%);
+      pointer-events: none;
+    }
+
+    .console-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .console-layout { grid-template-columns: 1fr; }
+      .console-sidebar { display: none; }
+    }
+
+    .console-sidebar {
+      position: sticky;
+      top: 70px;
+    }
+    .sidebar-heading {
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--muted);
+      margin-bottom: .6rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .sidebar-cmd-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .15rem;
+    }
+    .sidebar-cmd-list button {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: .35rem .6rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-cmd-list button::before { display: none; } /* override .cmd-btn::before */
+    .sidebar-cmd-list button .sc-arrow {
+      color: var(--accent2);
+      font-size: .65rem;
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    .sidebar-cmd-list button:hover {
+      background: var(--line);
+      color: var(--text);
+    }
+    .sidebar-cmd-list button:hover .sc-arrow { opacity: 1; }
+    .sidebar-cmd-list .sc-desc {
+      font-size: .62rem;
+      color: var(--muted);
+      opacity: .6;
+    }
+
+    .terminal-window {
+      background: var(--term-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent2) 10%, transparent),
+                  0 8px 32px rgba(0,0,0,.55),
+                  0 0 60px color-mix(in srgb, var(--accent2) 4%, transparent);
+      transition: box-shadow .3s;
+    }
+    .terminal-window:focus-within {
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent2) 30%, transparent),
+                  0 8px 40px rgba(0,0,0,.6),
+                  0 0 80px color-mix(in srgb, var(--accent2) 8%, transparent);
+    }
+
+    .terminal-titlebar {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .55rem 1rem;
+      background: color-mix(in srgb, var(--line) 50%, var(--term-bg) 50%);
+      border-bottom: 1px solid var(--line);
+      user-select: none;
+    }
+    .term-dots { display: flex; gap: .4rem; align-items: center; }
+    .term-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      transition: filter .2s;
+    }
+    .terminal-window:focus-within .term-dot { filter: brightness(1.15); }
+    .dot-red    { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green  { background: #28C840; }
+
+    .term-titlebar-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+    }
+    .term-title {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+    .term-title-icon {
+      width: 14px; height: 14px;
+      color: var(--accent2);
+      opacity: .7;
+    }
+    .term-titlebar-right {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      color: color-mix(in srgb, var(--muted) 50%, transparent);
+      white-space: nowrap;
+    }
+
+    /* Status bar below title */
+    .terminal-statusbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .28rem 1rem;
+      background: color-mix(in srgb, var(--accent2) 5%, var(--term-bg) 95%);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      color: var(--muted);
+    }
+    .statusbar-item {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .statusbar-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:.4; transform:scale(.7); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @keyframes pulse-dot { 0%,100% { opacity:1; } }
+    }
+
+    .terminal-output {
+      height: 340px;
+      overflow-y: auto;
+      padding: 1.1rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      line-height: 1.7;
+      cursor: text;
+      scroll-behavior: smooth;
+      position: relative;
+    }
+    @media (max-width: 600px) {
+      .terminal-output { height: 300px; padding: .8rem 1rem; }
+    }
+
+    .terminal-output::-webkit-scrollbar { width: 5px; }
+    .terminal-output::-webkit-scrollbar-track { background: transparent; }
+    .terminal-output::-webkit-scrollbar-thumb {
+      background: var(--line);
+      border-radius: 3px;
+    }
+
+    .term-line { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .term-line.prompt-echo { color: var(--accent2); }
+    .term-line.output { color: var(--text); }
+    .term-line.muted { color: var(--muted); }
+    .term-line.accent { color: var(--accent); }
+    .term-line.error { color: #ff7b7b; }
+    .term-line.success { color: var(--accent2); }
+    .term-line.empty { height: .6rem; }
+
+    .term-link {
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: .55rem 1.4rem;
+      border-top: 1px solid var(--line);
+      gap: .5rem;
+      background: color-mix(in srgb, var(--accent2) 3%, var(--term-bg) 97%);
+    }
+
+    .term-prompt-label {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--accent2);
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .prompt-user { color: var(--accent2); }
+    .prompt-sep  { color: var(--muted); }
+    .prompt-path { color: var(--accent); }
+    .prompt-dollar { color: var(--text); margin-left: .2rem; }
+
+    #term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      caret-color: var(--accent);
+    }
+
+    /* Blinking cursor indicator */
+    .term-cursor-hint {
+      display: inline-block;
+      width: 7px; height: 14px;
+      background: var(--accent);
+      border-radius: 1px;
+      vertical-align: text-bottom;
+      animation: blink-caret .9s step-end infinite;
+      margin-left: 1px;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .terminal-window:focus-within .term-cursor-hint { opacity: 1; }
+    @keyframes blink-caret {
+      0%,100% { opacity:1; }
+      50% { opacity:0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      @keyframes blink-caret { 0%,100% { opacity:1; } }
+    }
+
+    /* Tab bar above output */
+    .terminal-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 1rem;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--line) 25%, var(--term-bg) 75%);
+      overflow-x: auto;
+    }
+    .terminal-tabs::-webkit-scrollbar { display: none; }
+    .term-tab {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      padding: .4rem .9rem;
+      border-right: 1px solid var(--line);
+      white-space: nowrap;
+      cursor: default;
+    }
+    .term-tab.active {
+      color: var(--text);
+      background: var(--term-bg);
+      border-bottom: 2px solid var(--accent2);
+      margin-bottom: -1px;
+    }
+
+    .cmd-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: 1.1rem;
+    }
+    .cmd-btn {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      padding: .28rem .75rem;
+      background: color-mix(in srgb, var(--line) 40%, var(--panel) 60%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .cmd-btn::before {
+      content: '>';
+      color: var(--accent2);
+      font-size: .6rem;
+    }
+    .cmd-btn:hover {
+      background: var(--line);
+      color: var(--text);
+      border-color: var(--accent2);
+    }
+      cursor: pointer;
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: .6rem 1.2rem;
+      border-top: 1px solid var(--line);
+      gap: .5rem;
+    }
+
+    .term-prompt-label {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--accent2);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    #term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      caret-color: var(--accent);
+    }
+
+    .cmd-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: 1rem;
+    }
+
+    .cmd-btn {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      padding: .28rem .75rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .cmd-btn:hover {
+      background: var(--line);
+      color: var(--text);
+      border-color: var(--accent2);
+    }
+
+    /* =====================================================
+       ABOUT SECTION
+    ===================================================== */
+    .about-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+    @media (max-width: 700px) {
+      .about-cards { grid-template-columns: 1fr; }
+    }
+
+    .about-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: .75rem;
+    }
+
+    .about-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: .6rem;
+      color: var(--accent);
+    }
+
+    .about-card p, .about-card li {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .about-card ul {
+      padding-left: 1.1rem;
+      margin-top: .4rem;
+    }
+
+    /* =====================================================
+       SKILLS SECTION
+    ===================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+
+    .skill-card h3 {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+
+    .pill-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .pill {
+      font-size: .78rem;
+      padding: .25rem .75rem;
+      border-radius: 100px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: color-mix(in srgb, var(--line) 40%, transparent);
+      font-family: var(--font-mono);
+      transition: border-color .2s, background .2s;
+    }
+    .pill:hover {
+      border-color: var(--accent2);
+      background: color-mix(in srgb, var(--accent2) 10%, transparent);
+    }
+
+    /* =====================================================
+       PROJECTS SECTION
+    ===================================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 860px) {
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-date {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: .5rem;
+    }
+
+    .project-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: .6rem;
+      color: var(--text);
+    }
+
+    .project-card p {
+      font-size: .86rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      padding: .18rem .55rem;
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--accent2) 12%, transparent);
+      color: var(--accent2);
+      border: 1px solid color-mix(in srgb, var(--accent2) 30%, transparent);
+    }
+
+    .project-link {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      text-decoration: none;
+      margin-top: auto;
+    }
+    .project-link:hover { text-decoration: underline; }
+    .project-link::after { content: ' ↗'; }
+
+    /* =====================================================
+       ACHIEVEMENTS SECTION
+    ===================================================== */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 600px) {
+      .achievements-grid { grid-template-columns: 1fr; }
+    }
+
+    .achievement-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+
+    .achievement-card p {
+      font-size: .86rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .achievement-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      padding: .18rem .55rem;
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      margin-bottom: .6rem;
+    }
+
+    /* =====================================================
+       FOOTER / CONTACT
+    ===================================================== */
+    #contact {
+      background: color-mix(in srgb, var(--panel) 60%, transparent);
+      border-top: 1px solid var(--line);
+      padding-block: clamp(3rem, 8vw, 5rem);
+      text-align: center;
+    }
+
+    #contact h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: .6rem;
+    }
+
+    #contact .sub {
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .9rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-note {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+    }
+
+    /* Section divider */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP BAR
+============================================================ -->
+<header id="topbar" role="banner">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="#hero" aria-label="Deepak Yadav – home">
+      <!-- Diamond outline logo -->
+      <svg class="logo-diamond" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+        <rect x="14" y="2" width="16" height="16" rx="2"
+              transform="rotate(45 14 14)"
+              stroke="var(--accent)" stroke-width="1.6" fill="none"/>
+        <rect x="14" y="6" width="8" height="8" rx="1"
+              transform="rotate(45 14 14)"
+              stroke="var(--accent2)" stroke-width="1" fill="none"/>
+      </svg>
+      <span class="brand-initials">DY</span>
+      <span class="brand-role">/ computer science student</span>
+    </a>
+
+    <nav aria-label="Primary navigation">
+      <ul class="topbar-nav">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#console-section">Console</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="hero" class="container">
+  <div class="hero-grid">
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="hero-eyebrow">Deepak Yadav &nbsp;·&nbsp; CSE · Web · ML · Gorakhpur</div>
+
+      <h1 class="hero-heading">
+        Code it from scratch.<br>
+        Ship it to the world.<br>
+        <span class="accent-line">Never stop learning.</span>
+      </h1>
+
+      <p class="hero-body">
+        Try typing <code style="background:var(--line);padding:.1rem .4rem;border-radius:3px;font-family:var(--font-mono);font-size:.85em;">help</code> in the console.
+        I'm a B.Tech CSE student from Gorakhpur who builds web apps in plain JavaScript and Node.
+        I led my team to the Hacktoberfest × ByteBrawl 2026 final, and I'm learning the maths behind machine learning.
+      </p>
+
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#projects">Explore the builds</a>
+        <a class="btn btn-outline" href="#console-section" id="open-console-btn">Open the console</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: SVG chip diagram -->
+    <div class="hero-right">
+      <div class="chip-container">
+        <svg id="chip-svg" viewBox="0 0 420 380" aria-label="Chip diagram showing B.Tech CSE, JS + Node, 3 projects built" role="img">
+          <!-- Background dashed circle -->
+          <circle cx="210" cy="190" r="175" fill="none"
+                  stroke="var(--line)" stroke-width="1" stroke-dasharray="6 5"/>
+
+          <!-- Chip body -->
+          <rect id="chip-rect" x="110" y="90" width="200" height="200" rx="12"
+                fill="var(--panel)" stroke="var(--accent2)" stroke-width="1.5"/>
+
+          <!-- Chip grid lines -->
+          <line x1="110" y1="140" x2="310" y2="140" stroke="var(--line)" stroke-width=".6"/>
+          <line x1="110" y1="190" x2="310" y2="190" stroke="var(--line)" stroke-width=".6"/>
+          <line x1="110" y1="240" x2="310" y2="240" stroke="var(--line)" stroke-width=".6"/>
+          <line x1="160" y1="90"  x2="160" y2="290" stroke="var(--line)" stroke-width=".6"/>
+          <line x1="210" y1="90"  x2="210" y2="290" stroke="var(--line)" stroke-width=".6"/>
+          <line x1="260" y1="90"  x2="260" y2="290" stroke="var(--line)" stroke-width=".6"/>
+
+          <!-- Corner marks -->
+          <rect x="116" y="96"  width="12" height="12" rx="2" fill="none" stroke="var(--accent)" stroke-width="1"/>
+          <rect x="292" y="96"  width="12" height="12" rx="2" fill="none" stroke="var(--accent)" stroke-width="1"/>
+          <rect x="116" y="272" width="12" height="12" rx="2" fill="none" stroke="var(--accent)" stroke-width="1"/>
+          <rect x="292" y="272" width="12" height="12" rx="2" fill="none" stroke="var(--accent)" stroke-width="1"/>
+
+          <!-- Pins – top -->
+          <g id="pins-top" fill="none" stroke="var(--accent2)" stroke-width="1.5">
+            <line x1="150" y1="78" x2="150" y2="90"/>
+            <line x1="175" y1="78" x2="175" y2="90"/>
+            <line x1="200" y1="78" x2="200" y2="90"/>
+            <line x1="225" y1="78" x2="225" y2="90"/>
+            <line x1="250" y1="78" x2="250" y2="90"/>
+            <circle cx="150" cy="76" r="2.5" fill="var(--accent2)"/>
+            <circle cx="175" cy="76" r="2.5" fill="var(--accent2)"/>
+            <circle cx="200" cy="76" r="2.5" fill="var(--accent2)"/>
+            <circle cx="225" cy="76" r="2.5" fill="var(--accent2)"/>
+            <circle cx="250" cy="76" r="2.5" fill="var(--accent2)"/>
+          </g>
+          <!-- Pins – bottom -->
+          <g id="pins-bottom" fill="none" stroke="var(--accent2)" stroke-width="1.5">
+            <line x1="150" y1="290" x2="150" y2="302"/>
+            <line x1="175" y1="290" x2="175" y2="302"/>
+            <line x1="200" y1="290" x2="200" y2="302"/>
+            <line x1="225" y1="290" x2="225" y2="302"/>
+            <line x1="250" y1="290" x2="250" y2="302"/>
+            <circle cx="150" cy="304" r="2.5" fill="var(--accent2)"/>
+            <circle cx="175" cy="304" r="2.5" fill="var(--accent2)"/>
+            <circle cx="200" cy="304" r="2.5" fill="var(--accent2)"/>
+            <circle cx="225" cy="304" r="2.5" fill="var(--accent2)"/>
+            <circle cx="250" cy="304" r="2.5" fill="var(--accent2)"/>
+          </g>
+          <!-- Pins – left -->
+          <g fill="none" stroke="var(--accent2)" stroke-width="1.5">
+            <line x1="98" y1="130" x2="110" y2="130"/>
+            <line x1="98" y1="155" x2="110" y2="155"/>
+            <line x1="98" y1="180" x2="110" y2="180"/>
+            <line x1="98" y1="205" x2="110" y2="205"/>
+            <line x1="98" y1="230" x2="110" y2="230"/>
+            <line x1="98" y1="255" x2="110" y2="255"/>
+            <circle cx="96" cy="130" r="2.5" fill="var(--accent2)"/>
+            <circle cx="96" cy="155" r="2.5" fill="var(--accent2)"/>
+            <circle cx="96" cy="180" r="2.5" fill="var(--accent2)"/>
+            <circle cx="96" cy="205" r="2.5" fill="var(--accent2)"/>
+            <circle cx="96" cy="230" r="2.5" fill="var(--accent2)"/>
+            <circle cx="96" cy="255" r="2.5" fill="var(--accent2)"/>
+          </g>
+          <!-- Pins – right -->
+          <g fill="none" stroke="var(--accent2)" stroke-width="1.5">
+            <line x1="310" y1="130" x2="322" y2="130"/>
+            <line x1="310" y1="155" x2="322" y2="155"/>
+            <line x1="310" y1="180" x2="322" y2="180"/>
+            <line x1="310" y1="205" x2="322" y2="205"/>
+            <line x1="310" y1="230" x2="322" y2="230"/>
+            <line x1="310" y1="255" x2="322" y2="255"/>
+            <circle cx="324" cy="130" r="2.5" fill="var(--accent2)"/>
+            <circle cx="324" cy="155" r="2.5" fill="var(--accent2)"/>
+            <circle cx="324" cy="180" r="2.5" fill="var(--accent2)"/>
+            <circle cx="324" cy="205" r="2.5" fill="var(--accent2)"/>
+            <circle cx="324" cy="230" r="2.5" fill="var(--accent2)"/>
+            <circle cx="324" cy="255" r="2.5" fill="var(--accent2)"/>
+          </g>
+
+          <!-- Chip text -->
+          <text x="210" y="158" text-anchor="middle" fill="var(--accent2)"
+                font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">B.Tech CSE</text>
+          <text x="210" y="195" text-anchor="middle" fill="var(--text)"
+                font-family="'JetBrains Mono', monospace" font-size="13" font-weight="700">JS + Node</text>
+          <text x="210" y="225" text-anchor="middle" fill="var(--muted)"
+                font-family="'Space Grotesk', sans-serif" font-size="10">3 projects built</text>
+
+          <!-- Callout boxes -->
+          <!-- 01 Kanban -->
+          <rect x="12" y="50" width="80" height="38" rx="5"
+                fill="none" stroke="var(--line)" stroke-width="1"/>
+          <text x="22" y="68" fill="var(--accent)" font-family="'JetBrains Mono', monospace"
+                font-size="8" font-weight="700">01</text>
+          <text x="38" y="68" fill="var(--muted)" font-family="'Space Grotesk', sans-serif"
+                font-size="9">Kanban</text>
+          <line x1="92" y1="69" x2="110" y2="140" stroke="var(--line)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <text x="22" y="80" fill="var(--muted)" font-family="'JetBrains Mono', monospace" font-size="7">drag-and-drop</text>
+
+          <!-- 02 Cartix -->
+          <rect x="12" y="175" width="80" height="38" rx="5"
+                fill="none" stroke="var(--line)" stroke-width="1"/>
+          <text x="22" y="193" fill="var(--accent)" font-family="'JetBrains Mono', monospace"
+                font-size="8" font-weight="700">02</text>
+          <text x="38" y="193" fill="var(--muted)" font-family="'Space Grotesk', sans-serif"
+                font-size="9">Cartix</text>
+          <line x1="92" y1="194" x2="110" y2="205" stroke="var(--line)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <text x="22" y="205" fill="var(--muted)" font-family="'JetBrains Mono', monospace" font-size="7">ONDC · UPI</text>
+
+          <!-- 03 Pressure Map -->
+          <rect x="328" y="130" width="88" height="38" rx="5"
+                fill="none" stroke="var(--line)" stroke-width="1"/>
+          <text x="338" y="148" fill="var(--accent)" font-family="'JetBrains Mono', monospace"
+                font-size="8" font-weight="700">03</text>
+          <text x="354" y="148" fill="var(--muted)" font-family="'Space Grotesk', sans-serif"
+                font-size="9">Pressure</text>
+          <line x1="328" y1="149" x2="310" y2="155" stroke="var(--line)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <text x="338" y="161" fill="var(--muted)" font-family="'JetBrains Mono', monospace" font-size="7">Map · privacy</text>
+
+          <!-- Mint dots -->
+          <circle cx="52"  cy="340" r="4" fill="var(--accent2)" opacity=".7"/>
+          <circle cx="380" cy="60"  r="6" fill="var(--accent2)" opacity=".4"/>
+          <circle cx="395" cy="310" r="3" fill="var(--accent2)" opacity=".6"/>
+          <circle cx="30"  cy="290" r="3" fill="var(--accent2)" opacity=".5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONSOLE SECTION
+============================================================ -->
+<section id="console-section" class="section">
+  <div class="container">
+    <p class="section-label">Interactive Terminal</p>
+    <h2 class="section-title">The Console</h2>
+
+    <div class="console-layout">
+
+      <!-- SIDEBAR: command reference -->
+      <aside class="console-sidebar" aria-label="Command reference">
+        <p class="sidebar-heading">// commands</p>
+        <ul class="sidebar-cmd-list">
+          <li><button data-cmd="help"><span style="color:var(--accent2)">help</span> <span class="sc-desc">— list all</span></button></li>
+          <li><button data-cmd="about"><span style="color:var(--accent2)">about</span> <span class="sc-desc">— who I am</span></button></li>
+          <li><button data-cmd="skills"><span style="color:var(--accent2)">skills</span> <span class="sc-desc">— languages</span></button></li>
+          <li><button data-cmd="projects"><span style="color:var(--accent2)">projects</span> <span class="sc-desc">— 3 builds</span></button></li>
+          <li><button data-cmd="achievements"><span style="color:var(--accent2)">achievements</span></button></li>
+          <li><button data-cmd="contact"><span style="color:var(--accent2)">contact</span> <span class="sc-desc">— links</span></button></li>
+          <li><button data-cmd="whoami"><span style="color:var(--accent2)">whoami</span> <span class="sc-desc">— one-liner</span></button></li>
+          <li><button data-cmd="train"><span style="color:var(--accent2)">train</span> <span class="sc-desc">— tiny ML</span></button></li>
+          <li><button data-cmd="theme amber"><span style="color:var(--accent2)">theme amber</span></button></li>
+          <li><button data-cmd="theme green"><span style="color:var(--accent2)">theme green</span></button></li>
+          <li><button data-cmd="theme paper"><span style="color:var(--accent2)">theme paper</span></button></li>
+          <li><button data-cmd="clear"><span style="color:var(--accent2)">clear</span> <span class="sc-desc">— wipe</span></button></li>
+        </ul>
+        <div style="margin-top:1.2rem;padding:.7rem;border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:.62rem;color:var(--muted);line-height:1.6;">
+          <div style="color:var(--accent2);margin-bottom:.3rem;">// shortcuts</div>
+          <div>↑ ↓ &nbsp;history</div>
+          <div>Tab &nbsp;&nbsp;autocomplete</div>
+          <div>Ctrl+L clear</div>
+        </div>
+      </aside>
+
+      <!-- MAIN TERMINAL -->
+      <div>
+        <div class="terminal-window" role="region" aria-label="Interactive terminal">
+
+          <!-- Title bar -->
+          <div class="terminal-titlebar" aria-hidden="true">
+            <div class="term-dots">
+              <span class="term-dot dot-red"></span>
+              <span class="term-dot dot-yellow"></span>
+              <span class="term-dot dot-green"></span>
+            </div>
+            <div class="term-titlebar-center">
+              <svg class="term-title-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <polyline points="2,4 6,7 2,10"/>
+                <line x1="7" y1="10" x2="12" y2="10"/>
+              </svg>
+              <span class="term-title" id="term-title-text">deepak-yadav@portfolio: ~</span>
+            </div>
+            <span class="term-titlebar-right">bash · zsh</span>
+          </div>
+
+          <!-- Status bar -->
+          <div class="terminal-statusbar" aria-hidden="true">
+            <span class="statusbar-item">
+              <span class="statusbar-dot"></span>
+              connected
+            </span>
+            <span class="statusbar-item">node v20 · git main</span>
+            <span class="statusbar-item" style="margin-left:auto;">↑↓ history · Tab complete</span>
+          </div>
+
+          <!-- Tab bar -->
+          <div class="terminal-tabs" role="tablist" aria-hidden="true">
+            <div class="term-tab active">portfolio — bash</div>
+            <div class="term-tab" style="opacity:.5;">+ new tab</div>
+          </div>
+
+          <!-- Output -->
+          <div class="terminal-output" id="term-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
+
+          <!-- Input row -->
+          <div class="terminal-input-row">
+            <span class="term-prompt-label" id="term-prompt-label" aria-hidden="true">
+              <span class="prompt-user">deepak-yadav</span><span class="prompt-sep">@</span><span class="prompt-path">portfolio</span><span class="prompt-sep">:~</span><span class="prompt-dollar">$</span>
+            </span>
+            <input
+              type="text"
+              id="term-input"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="Terminal command input"
+              placeholder="type a command and press Enter…"
+            />
+            <span class="term-cursor-hint" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <!-- Quick command chips -->
+        <div class="cmd-buttons" role="toolbar" aria-label="Quick commands">
+          <button class="cmd-btn" data-cmd="help">help</button>
+          <button class="cmd-btn" data-cmd="about">about</button>
+          <button class="cmd-btn" data-cmd="skills">skills</button>
+          <button class="cmd-btn" data-cmd="projects">projects</button>
+          <button class="cmd-btn" data-cmd="achievements">achievements</button>
+          <button class="cmd-btn" data-cmd="train">train</button>
+          <button class="cmd-btn" data-cmd="theme amber">theme amber</button>
+        </div>
+      </div>
+
+    </div><!-- end console-layout -->
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT SECTION
+============================================================ -->
+<section id="about" class="section">
+  <div class="container">
+    <p class="section-label">Who I Am</p>
+    <h2 class="section-title reveal">About Me</h2>
+
+    <div class="about-cards">
+      <article class="card about-card reveal">
+        <div class="about-card-icon">🎓</div>
+        <h3>Education</h3>
+        <p><strong style="color:var(--text)">B.Tech Computer Science</strong></p>
+        <p>2025 – 2029 &nbsp;|&nbsp; DDU Gorakhpur</p>
+        <p style="color:var(--accent2);font-weight:600;">CGPA 9.36 / 10</p>
+        <ul style="margin-top:.6rem">
+          <li>Qualified JEE Main 2025</li>
+          <li>Appeared for JEE Advanced 2025</li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)">
+          <p style="color:var(--accent);font-size:.78rem;font-weight:600;margin-bottom:.5rem;font-family:var(--font-mono);letter-spacing:.08em;">SCHOLASTIC ACHIEVEMENTS</p>
+          <ul>
+            <li>
+              <strong style="color:var(--text)">12th — CBSE (2024)</strong><br>
+              <span>St. Joseph's School, Bhatpar Rani, UP</span><br>
+              <span style="color:var(--accent2);font-weight:600;">82.8%</span>
+            </li>
+            <li style="margin-top:.5rem">
+              <strong style="color:var(--text)">10th — CBSE (2022)</strong><br>
+              <span>St. Joseph's School, Bhatpar Rani, UP</span><br>
+              <span style="color:var(--accent2);font-weight:600;">87.8%</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card about-card reveal">
+        <div class="about-card-icon">⚙️</div>
+        <h3>What I Like Building</h3>
+        <ul>
+          <li>Small, fast apps without heavy frameworks</li>
+          <li>Tools that solve a real, tangible problem</li>
+          <li>Interfaces that feel instant and snappy</li>
+          <li>Systems that respect user privacy</li>
+        </ul>
+      </article>
+
+      <article class="card about-card reveal">
+        <div class="about-card-icon">🏏</div>
+        <h3>Outside Code</h3>
+        <ul>
+          <li>Cricket – school-level player</li>
+          <li>Cycling – 1st place, slow cycling competition</li>
+          <li>Cooking – weekend experiments</li>
+          <li>Daily goals that keep DSA practice steady</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS SECTION
+============================================================ -->
+<section id="skills" class="section" style="background: color-mix(in srgb, var(--panel) 40%, transparent)">
+  <div class="container">
+    <p class="section-label">What I Know</p>
+    <h2 class="section-title reveal">Skills</h2>
+
+    <div class="skills-grid">
+      <article class="card skill-card reveal">
+        <h3>Languages</h3>
+        <div class="pill-wrap">
+          <span class="pill">C</span>
+          <span class="pill">C++</span>
+          <span class="pill">Python</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+        </div>
+      </article>
+
+      <article class="card skill-card reveal">
+        <h3>Frameworks &amp; Libraries</h3>
+        <div class="pill-wrap">
+          <span class="pill">Node.js</span>
+          <span class="pill">Express.js</span>
+          <span class="pill">React.js</span>
+          <span class="pill">OpenCV</span>
+        </div>
+      </article>
+
+      <article class="card skill-card reveal">
+        <h3>Tools &amp; Platforms</h3>
+        <div class="pill-wrap">
+          <span class="pill">MongoDB</span>
+          <span class="pill">Git</span>
+          <span class="pill">GitHub</span>
+          <span class="pill">VS Code</span>
+          <span class="pill">Vercel</span>
+          <span class="pill">ONDC</span>
+          <span class="pill">AWS Amplify</span>
+        </div>
+      </article>
+
+      <article class="card skill-card reveal">
+        <h3>Strengths</h3>
+        <div class="pill-wrap">
+          <span class="pill">Data Structures &amp; Algorithms</span>
+          <span class="pill">Problem Solving</span>
+          <span class="pill">Time Management</span>
+          <span class="pill">Continuous Learning</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS SECTION
+============================================================ -->
+<section id="projects" class="section">
+  <div class="container">
+    <p class="section-label">What I've Built</p>
+    <h2 class="section-title reveal">Projects</h2>
+
+    <div class="projects-grid">
+
+      <!-- Kanban -->
+      <article class="card project-card reveal">
+        <p class="project-date">September 2026</p>
+        <h3>Kanban Board &amp; To-Do App</h3>
+        <p>
+          Vanilla JavaScript (ES6+) with no frameworks.
+          Native HTML5 drag-and-drop moves tasks between lanes.
+          LocalStorage keeps tasks and columns after refresh.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">HTML</span>
+          <span class="project-tag">CSS</span>
+          <span class="project-tag">Vanilla JS</span>
+          <span class="project-tag">LocalStorage</span>
+          <span class="project-tag">Drag &amp; Drop</span>
+        </div>
+        <a class="project-link" href="https://to-dodevs.vercel.app/" target="_blank" rel="noopener noreferrer">Open live app</a>
+      </article>
+
+      <!-- Cartix -->
+      <article class="card project-card reveal">
+        <p class="project-date">August 2024</p>
+        <h3>Cartix Kirana</h3>
+        <p>
+          Quick-commerce platform with separate dashboards for customers,
+          retailers and delivery partners. Connects to nearby local stores
+          through the ONDC network. UPI payments with dynamic QR codes
+          and GPay / PhonePe deep links.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">ONDC</span>
+          <span class="project-tag">UPI</span>
+          <span class="project-tag">MongoDB</span>
+          <span class="project-tag">Express.js</span>
+        </div>
+        <a class="project-link" href="https://cartix-kirana.vercel.app/" target="_blank" rel="noopener noreferrer">Open live app</a>
+      </article>
+
+      <!-- Pressure Map -->
+      <article class="card project-card reveal">
+        <p class="project-date">Hackathon Build</p>
+        <h3>Pressure Map</h3>
+        <p>
+          Privacy-first checker that finds unfair targets, not faulty workers.
+          Flags impossible numbers, unfair targets, spikes and session mismatches.
+          Stores no names or IDs and hides groups under 30 people.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Privacy</span>
+          <span class="project-tag">Data Analysis</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Node.js</span>
+        </div>
+        <a class="project-link" id="pm-link" href="#" target="_blank" rel="noopener noreferrer">View code on GitHub</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ACHIEVEMENTS SECTION
+============================================================ -->
+<section id="achievements" class="section" style="background: color-mix(in srgb, var(--panel) 40%, transparent)">
+  <div class="container">
+    <p class="section-label">Milestones</p>
+    <h2 class="section-title reveal">Achievements</h2>
+
+    <div class="achievements-grid">
+
+      <article class="card achievement-card reveal">
+        <span class="achievement-badge">🏆 Hackathon</span>
+        <h3>Hacktoberfest × ByteBrawl 2026</h3>
+        <p>
+          Led my team to the final at MMMUT Gorakhpur,
+          out of 179 teams and 350+ students.
+        </p>
+      </article>
+
+      <article class="card achievement-card reveal">
+        <span class="achievement-badge">💡 Hackathon</span>
+        <h3>Smart India Hackathon</h3>
+        <p>
+          Qualified the internal college screening.
+          Joined campus coding hackathons and represented the department.
+        </p>
+      </article>
+
+      <article class="card achievement-card reveal">
+        <span class="achievement-badge">🌱 Community</span>
+        <h3>NSS Volunteer</h3>
+        <p>
+          Tree plantation drives and public waste education campaigns
+          with the Waste Warriors NGO.
+        </p>
+      </article>
+
+      <article class="card achievement-card reveal">
+        <span class="achievement-badge">🏅 Sports</span>
+        <h3>Sports</h3>
+        <p>
+          First place in a slow cycling competition.
+          School-level cricket player.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER / CONTACT
+============================================================ -->
+<footer id="contact">
+  <div class="container">
+    <div class="divider" style="margin-inline:auto"></div>
+    <h2>Get in touch</h2>
+    <p class="sub">Open to internships and collaborations.</p>
+
+    <p class="footer-note">Hosted on AWS Amplify · Built with plain HTML, CSS &amp; Vanilla JS · © 2026 Deepak Yadav</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  'use strict';
+
+  /* ============================================================
+     CONSTANTS
+  ============================================================ */
+  const NAME = 'Deepak Yadav';
+  const SLUG = 'deepak-yadav';
+  const INI  = 'DY';
+  const GH   = 'https://github.com/deepak-yadav-ddu';
+  const LI   = 'https://linkedin.com/in/deepak-yadav-ddu';
+  const MAIL = 'deepakyadav@example.com';
+  const PM   = 'https://github.com/deepak-yadav-ddu/pressure-map';
+
+  /* ============================================================
+     WIRE UP DYNAMIC LINKS
+  ============================================================ */
+  document.getElementById('pm-link').href     = PM;
+
+  /* ============================================================
+     THEME SWITCHER
+  ============================================================ */
+  const THEMES = ['green', 'amber', 'paper'];
+  let currentTheme = 'green';
+
+  function setTheme(t) {
+    if (!THEMES.includes(t)) return false;
+    currentTheme = t;
+    document.documentElement.setAttribute('data-theme', t);
+    return true;
+  }
+
+  /* ============================================================
+     TERMINAL ENGINE
+  ============================================================ */
+  const termOutput  = document.getElementById('term-output');
+  const termInput   = document.getElementById('term-input');
+
+  let cmdHistory    = [];
+  let historyIndex  = -1;
+  let trainRunning  = false;
+
+  const PROMPT_ECHO = `${SLUG}@portfolio:~$ `;
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* -- helpers -- */
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function appendLine(html, cls = 'output') {
+    const p = document.createElement('p');
+    p.className = 'term-line ' + cls;
+    p.innerHTML = html;
+    termOutput.appendChild(p);
+    scrollTerm();
+    return p;
+  }
+
+  function appendEmpty() {
+    const p = document.createElement('p');
+    p.className = 'term-line empty';
+    termOutput.appendChild(p);
+  }
+
+  function scrollTerm() {
+    termOutput.scrollTop = termOutput.scrollHeight;
+  }
+
+  function clearTerm() {
+    termOutput.innerHTML = '';
+  }
+
+  /* -- command definitions -- */
+  const COMMANDS = {
+    help: cmdHelp,
+    about: cmdAbout,
+    skills: cmdSkills,
+    projects: cmdProjects,
+    achievements: cmdAchievements,
+    contact: cmdContact,
+    whoami: cmdWhoami,
+    clear: cmdClear,
+    theme: cmdTheme,
+    train: cmdTrain,
+    sudo: cmdSudo,
+  };
+
+  const CMD_NAMES = Object.keys(COMMANDS);
+
+  function cmdHelp() {
+    appendEmpty();
+    appendLine('Available commands:', 'accent');
+    appendLine('  <span style="color:var(--accent2)">help</span>         — show this list');
+    appendLine('  <span style="color:var(--accent2)">about</span>        — who is ' + escapeHTML(NAME));
+    appendLine('  <span style="color:var(--accent2)">skills</span>       — languages, tools, strengths');
+    appendLine('  <span style="color:var(--accent2)">projects</span>     — three live projects');
+    appendLine('  <span style="color:var(--accent2)">achievements</span> — hackathons &amp; milestones');
+    appendLine('  <span style="color:var(--accent2)">contact</span>      — links to reach me');
+    appendLine('  <span style="color:var(--accent2)">whoami</span>       — a one-liner');
+    appendLine('  <span style="color:var(--accent2)">theme</span> [green|amber|paper] — switch site theme');
+    appendLine('  <span style="color:var(--accent2)">train</span>        — watch a tiny model train');
+    appendLine('  <span style="color:var(--accent2)">clear</span>        — clear terminal (Ctrl+L)');
+    appendLine('  <span style="color:var(--accent2)">sudo</span>         — nice try');
+    appendEmpty();
+  }
+
+  function cmdAbout() {
+    appendEmpty();
+    appendLine('┌─ About ' + escapeHTML(NAME) + ' ───────────────────────────────', 'accent');
+    appendLine('│');
+    appendLine('│  B.Tech Computer Science, DDU Gorakhpur (2025–2029)');
+    appendLine('│  CGPA 9.36/10 · Qualified JEE Main · Appeared JEE Advanced');
+    appendLine('│  12th CBSE 82.8% · 10th CBSE 87.8% (St. Joseph\'s, Bhatpar Rani)');
+    appendLine('│');
+    appendLine('│  Builds web apps in plain JavaScript &amp; Node.js.');
+    appendLine('│  Learning the maths behind machine learning.');
+    appendLine('│  Led team to Hacktoberfest × ByteBrawl 2026 final.');
+    appendLine('│');
+    appendLine('│  Hobbies: cricket, cycling, cooking.');
+    appendLine('│  Location: Gorakhpur, Uttar Pradesh, India.');
+    appendLine('│');
+    appendLine('└───────────────────────────────────────────────────────', 'accent');
+    appendEmpty();
+  }
+
+  function cmdSkills() {
+    appendEmpty();
+    appendLine('Languages       C  C++  Python  JavaScript  HTML  CSS', 'accent');
+    appendLine('Frameworks      Node.js  Express.js  React.js  OpenCV');
+    appendLine('Tools           MongoDB  Git  GitHub  VS Code  Vercel  ONDC  AWS Amplify');
+    appendLine('Strengths       DSA  Problem Solving  Time Mgmt  Continuous Learning');
+    appendEmpty();
+  }
+
+  function cmdProjects() {
+    appendEmpty();
+    appendLine('── Projects ──────────────────────────────────────────', 'accent');
+    appendEmpty();
+    appendLine('<span style="color:var(--accent)">01. Kanban Board &amp; To-Do App</span>  (Sep 2026)');
+    appendLine('    Vanilla JS · HTML5 drag-and-drop · LocalStorage');
+    appendLine('    <a class="term-link" href="https://to-dodevs.vercel.app/" target="_blank" rel="noopener noreferrer">→ https://to-dodevs.vercel.app/</a>');
+    appendEmpty();
+    appendLine('<span style="color:var(--accent)">02. Cartix Kirana</span>  (Aug 2024)');
+    appendLine('    Quick-commerce · ONDC · UPI · Multi-dashboard');
+    appendLine('    <a class="term-link" href="https://cartix-kirana.vercel.app/" target="_blank" rel="noopener noreferrer">→ https://cartix-kirana.vercel.app/</a>');
+    appendEmpty();
+    appendLine('<span style="color:var(--accent)">03. Pressure Map</span>  (Hackathon)');
+    appendLine('    Privacy-first target fairness checker · No PII stored');
+    appendLine('    <a class="term-link" href="' + escapeHTML(PM) + '" target="_blank" rel="noopener noreferrer">→ ' + escapeHTML(PM) + '</a>');
+    appendEmpty();
+  }
+
+  function cmdAchievements() {
+    appendEmpty();
+    appendLine('── Achievements ──────────────────────────────────────', 'accent');
+    appendLine('🏆  Hacktoberfest × ByteBrawl 2026 — Final at MMMUT Gorakhpur');
+    appendLine('    179 teams · 350+ students');
+    appendLine('💡  Smart India Hackathon — Qualified internal college screening');
+    appendLine('🌱  NSS Volunteer — Tree plantation &amp; Waste Warriors NGO');
+    appendLine('🏅  Slow Cycling — 1st place  |  Cricket — School level');
+    appendEmpty();
+  }
+
+  function cmdContact() {
+    appendEmpty();
+    appendLine('── Contact ───────────────────────────────────────────', 'accent');
+    appendLine('GitHub    <a class="term-link" href="' + escapeHTML(GH) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(GH) + '</a>');
+    appendLine('LinkedIn  <a class="term-link" href="' + escapeHTML(LI) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(LI) + '</a>');
+    appendLine('Email     <a class="term-link" href="mailto:' + escapeHTML(MAIL) + '">' + escapeHTML(MAIL) + '</a>');
+    appendEmpty();
+  }
+
+  function cmdWhoami() {
+    appendEmpty();
+    appendLine(escapeHTML(NAME) + ' — B.Tech CSE @ DDU Gorakhpur · JS + Node builder · ML learner.');
+    appendEmpty();
+  }
+
+  function cmdClear() {
+    clearTerm();
+  }
+
+  function cmdTheme(args) {
+    const t = args[0];
+    if (!t) {
+      appendEmpty();
+      appendLine('usage: theme [green|amber|paper]');
+      appendLine('current theme: <span style="color:var(--accent)">' + escapeHTML(currentTheme) + '</span>');
+      appendEmpty();
+      return;
+    }
+    if (setTheme(t)) {
+      appendEmpty();
+      appendLine('theme switched to <span style="color:var(--accent)">' + escapeHTML(t) + '</span>', 'success');
+      appendEmpty();
+    } else {
+      appendEmpty();
+      appendLine('unknown theme: ' + escapeHTML(t) + '. Available: green, amber, paper', 'error');
+      appendEmpty();
+    }
+  }
+
+  function cmdSudo() {
+    appendEmpty();
+    appendLine('nice try. Email me instead: <a class="term-link" href="mailto:' + escapeHTML(MAIL) + '">' + escapeHTML(MAIL) + '</a>', 'muted');
+    appendEmpty();
+  }
+
+  function cmdTrain() {
+    if (trainRunning) return;
+    trainRunning = true;
+    termInput.disabled = true;
+
+    appendEmpty();
+    appendLine('training a tiny model on my own projects...', 'muted');
+
+    const epochs = 8;
+    let loss = 2.4;
+    const decayFactor = 0.58;
+    const delay = REDUCED_MOTION ? 0 : 280;
+
+    function runEpoch(n) {
+      if (n > epochs) {
+        const doneEl = appendLine('done. the model learned one thing: <span style="color:var(--accent)">' + escapeHTML(NAME) + ' is ready for internships.</span>', 'success');
+        appendEmpty();
+        trainRunning = false;
+        termInput.disabled = false;
+        termInput.focus();
+        return;
+      }
+
+      const bar = '#'.repeat(n) + '·'.repeat(epochs - n);
+      const lossStr = loss.toFixed(2);
+      appendLine(
+        'epoch <span style="color:var(--accent2)">' + n + '/' + epochs + '</span>' +
+        '  loss <span style="color:var(--accent)">' + lossStr + '</span>' +
+        '  [<span style="color:var(--accent2)">' + bar + '</span>]'
+      );
+
+      loss = loss * decayFactor;
+
+      if (REDUCED_MOTION) {
+        runEpoch(n + 1);
+      } else {
+        setTimeout(function() { runEpoch(n + 1); }, delay);
+      }
+    }
+
+    if (REDUCED_MOTION) {
+      runEpoch(1);
+    } else {
+      setTimeout(function() { runEpoch(1); }, 300);
+    }
+  }
+
+  /* -- execute command -- */
+  function executeCommand(raw) {
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+
+    // Add to history
+    cmdHistory.unshift(trimmed);
+    if (cmdHistory.length > 100) cmdHistory.pop();
+    historyIndex = -1;
+
+    // Echo prompt
+    appendLine(PROMPT_ECHO + escapeHTML(trimmed), 'prompt-echo');
+
+    const parts = trimmed.toLowerCase().split(/\s+/);
+    const cmd   = parts[0];
+    const args  = parts.slice(1);
+
+    if (COMMANDS[cmd]) {
+      COMMANDS[cmd](args);
+    } else {
+      appendEmpty();
+      appendLine(
+        'command not found: <span style="color:var(--accent)">' + escapeHTML(cmd) + '</span>. ' +
+        'Type <span style="color:var(--accent2)">help</span> to see commands.',
+        'error'
+      );
+      appendEmpty();
+    }
+  }
+
+  /* -- input event handlers -- */
+  termInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (trainRunning) return;
+      const val = termInput.value;
+      termInput.value = '';
+      executeCommand(val);
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex < cmdHistory.length - 1) {
+        historyIndex++;
+        termInput.value = cmdHistory[historyIndex] || '';
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        historyIndex--;
+        termInput.value = cmdHistory[historyIndex] || '';
+      } else {
+        historyIndex = -1;
+        termInput.value = '';
+      }
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const partial = termInput.value.toLowerCase().trim();
+      if (!partial) return;
+      const matches = CMD_NAMES.filter(c => c.startsWith(partial));
+      if (matches.length === 1) {
+        termInput.value = matches[0];
+      } else if (matches.length > 1) {
+        appendLine(PROMPT_ECHO + escapeHTML(termInput.value), 'prompt-echo');
+        appendLine(matches.join('   '), 'muted');
+      }
+      return;
+    }
+
+    if (e.key === 'l' && e.ctrlKey) {
+      e.preventDefault();
+      clearTerm();
+      return;
+    }
+  });
+
+  /* Click on output area to focus input */
+  termOutput.addEventListener('click', function() {
+    termInput.focus();
+  });
+
+  /* Quick command buttons */
+  document.querySelectorAll('.cmd-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (trainRunning) return;
+      const cmd = btn.getAttribute('data-cmd');
+      termInput.value = cmd;
+      termInput.focus();
+      executeCommand(cmd);
+      termInput.value = '';
+    });
+  });
+
+  /* "Open the console" hero button — scroll and focus input */
+  document.getElementById('open-console-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const section = document.getElementById('console-section');
+    section.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+    setTimeout(function() { termInput.focus(); }, REDUCED_MOTION ? 0 : 500);
+  });
+
+  /* ============================================================
+     BOOT SEQUENCE
+  ============================================================ */
+  function boot() {
+    const lines = [
+      { text: 'booting portfolio... ok', cls: 'muted', delay: 0 },
+      { text: 'Hi, I\'m ' + NAME + ', a B.Tech CSE student at DDU Gorakhpur.', cls: 'success', delay: 500 },
+      { text: 'I build with plain JavaScript and Node. Type <span style="color:var(--accent2)">help</span> to see what I can do.', cls: 'output', delay: 1100 },
+      { text: '', cls: 'empty', delay: 1400 },
+    ];
+
+    if (REDUCED_MOTION) {
+      lines.forEach(function(l) {
+        if (l.cls === 'empty') appendEmpty();
+        else appendLine(l.text, l.cls);
+      });
+    } else {
+      lines.forEach(function(l) {
+        setTimeout(function() {
+          if (l.cls === 'empty') appendEmpty();
+          else appendLine(l.text, l.cls);
+        }, l.delay);
+      });
+    }
+  }
+
+  boot();
+
+  /* ============================================================
+     SCROLL REVEAL (IntersectionObserver)
+  ============================================================ */
+  if (!REDUCED_MOTION) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      observer.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      el.classList.add('visible');
+    });
+  }
+
+  /* ============================================================
+     ACTIVE NAV HIGHLIGHT (IntersectionObserver)
+  ============================================================ */
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.topbar-nav a');
+
+  const navObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navLinks.forEach(function(a) {
+          const href = a.getAttribute('href').replace('#', '');
+          if (href === entry.target.id ||
+              (entry.target.id === 'console-section' && href === 'console-section')) {
+            a.style.color = 'var(--accent)';
+          } else {
+            a.style.color = '';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(function(s) { navObserver.observe(s); });
+
+</script>
+</body>
+</html>
